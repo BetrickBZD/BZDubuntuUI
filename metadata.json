@@ -1,0 +1,10 @@
+{
+  "uuid": "dock-media@yekda",
+  "name": "Dock Media",
+  "description": "Zeigt das Album-Cover des laufenden Players im Ubuntu Dock über 'Anwendungen anzeigen'. Hover zeigt den Titel, Klick öffnet die Steuerung.",
+  "shell-version": [
+    "50"
+  ],
+  "version": 1,
+  "settings-schema": "org.gnome.shell.extensions.dock-media"
+}

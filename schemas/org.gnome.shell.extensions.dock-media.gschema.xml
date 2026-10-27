@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.dock-media" path="/org/gnome/shell/extensions/dock-media/">
+    <key name="popup-margin" type="i">
+      <range min="0" max="64"/>
+      <default>5</default>
+      <summary>Abstand des Popups zu Dock und Bildschirmrand (px)</summary>
+    </key>
+    <key name="blur-background" type="b">
+      <default>true</default>
+      <summary>Unscharfes Cover als Hintergrund des Popups</summary>
+    </key>
+    <key name="compact-panel" type="b">
+      <default>false</default>
+      <summary>Obere Leiste ausblenden und Uhr im Dock anzeigen</summary>
+    </key>
+  </schema>
+</schemalist>
