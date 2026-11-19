@@ -6,21 +6,40 @@ import Soup from 'gi://Soup?version=3.0';
 import * as Mpris from 'resource:///org/gnome/shell/ui/mpris.js';
 import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
+import {averageColor} from '../lib/color.js';
+
+import {PlaybackState} from './playbackState.js';
+
 Gio._promisify(Soup.Session.prototype, 'send_and_read_async');
 
 const CACHE_MAX_AGE = 30 * 24 * 60 * 60; // seconds
+// Steps of the dock's progress ring along a cover's edge: about its length
+// in px for covers up to 64 px, so it moves by at most a pixel per update
+const RING_STEPS = 240;
 
 function sha1(text) {
     return GLib.compute_checksum_for_string(GLib.ChecksumType.SHA1, text, -1);
 }
 
 /**
- * Tracks MPRIS players, picks the one to show and caches cover art locally.
+ * Tracks MPRIS players, picks the one to show and caches cover art locally,
+ * with a blurred version and its average color for the popup's background.
  * Emits 'changed' whenever the player, its track or the cover changes.
+ *
+ * `state` is the PlaybackState (position, shuffle, repeat) of the shown
+ * player, shared by the popup and the dock's progress ring. It only runs
+ * while someone needs it: while a popup holds it (holdState() until
+ * releaseState()) or the ring is on ('dock-progress-ring'); for the
+ * ring alone only as often as it visibly moves.
  */
 export class MediaController extends EventEmitter {
-    constructor() {
+    constructor(settings) {
         super();
+        this._settings = settings;
+        this.state = new PlaybackState();
+        this._holds = 0;
+        this._statePlayer = null;
+        settings.connectObject('changed::dock-progress-ring', () => this._syncState(), this);
 
         this._session = new Soup.Session({timeout: 10, user_agent: 'GNOME-Shell-DockMedia/1.0'});
         this._cancellable = new Gio.Cancellable();
@@ -31,6 +50,7 @@ export class MediaController extends EventEmitter {
         this.player = null;
         this.coverPath = null;
         this.blurPath = null;
+        this.coverColor = null; // {red, green, blue}, 0-255
         this._coverUrl = null;
         this._pinned = null;
         this._players = new Set();
@@ -44,6 +64,32 @@ export class MediaController extends EventEmitter {
 
     get players() {
         return [...this._players];
+    }
+
+    holdState() {
+        this._holds++;
+        this._syncState();
+    }
+
+    releaseState() {
+        this._holds = Math.max(0, this._holds - 1);
+        this._syncState();
+    }
+
+    // Started anew only for another player: the state follows its own
+    // player's changes by itself
+    _syncState() {
+        const wanted = this._holds > 0 || this._settings.get_boolean('dock-progress-ring');
+        // A popup shows the time to the second, the ring alone needs less
+        this.state.setResolution(this._holds > 0 ? 0 : RING_STEPS);
+        const player = wanted ? this.player : null;
+        if (player === this._statePlayer)
+            return;
+        this._statePlayer = player;
+        if (player)
+            this.state.start(player);
+        else
+            this.state.stop();
     }
 
     selectPlayer(player) {
@@ -80,6 +126,7 @@ export class MediaController extends EventEmitter {
     _update() {
         this.player = this._pickPlayer();
         this._updateCover();
+        this._syncState();
         this.emit('changed');
     }
 
@@ -90,6 +137,7 @@ export class MediaController extends EventEmitter {
         this._coverUrl = url;
         this.coverPath = null;
         this.blurPath = null;
+        this.coverColor = null;
 
         if (!url)
             return;
@@ -99,7 +147,7 @@ export class MediaController extends EventEmitter {
             if (url !== this._coverUrl)
                 return;
             this.coverPath = path;
-            this.blurPath = this._blurCover(path);
+            this._processCover(path);
             this.emit('changed');
         } catch (e) {
             if (!e.matches?.(Gio.IOErrorEnum, Gio.IOErrorEnum.CANCELLED))
@@ -127,21 +175,28 @@ export class MediaController extends EventEmitter {
         return path;
     }
 
-    // Cheap blur: shrink the cover to a few pixels and let bilinear scaling
-    // smear it back up. Unlike a Clutter effect this keeps rounded corners.
-    _blurCover(path) {
-        const blurPath = GLib.build_filenamev([this._cacheDir, `${sha1(path)}-blur.png`]);
-        if (GLib.file_test(blurPath, GLib.FileTest.EXISTS))
-            return blurPath;
-
+    // The cover shrunk to a few pixels gives both, once per track: a cheap
+    // blur (bilinear scaling smears the pixels back up; unlike a Clutter
+    // effect this keeps rounded corners) and the average color
+    _processCover(path) {
+        let pixbuf;
         try {
-            GdkPixbuf.Pixbuf.new_from_file_at_scale(path, 10, 10, false)
-                .scale_simple(120, 120, GdkPixbuf.InterpType.BILINEAR)
-                .savev(blurPath, 'png', [], []);
-            return blurPath;
+            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, 10, 10, false);
+        } catch (e) {
+            console.warn(`Dock Media: could not read cover ${path}: ${e.message}`);
+            return;
+        }
+        this.coverColor = averageColor(pixbuf);
+
+        const blurPath = GLib.build_filenamev([this._cacheDir, `${sha1(path)}-blur.png`]);
+        try {
+            if (!GLib.file_test(blurPath, GLib.FileTest.EXISTS)) {
+                pixbuf.scale_simple(120, 120, GdkPixbuf.InterpType.BILINEAR)
+                    .savev(blurPath, 'png', [], []);
+            }
+            this.blurPath = blurPath;
         } catch (e) {
             console.warn(`Dock Media: could not blur cover ${path}: ${e.message}`);
-            return null;
         }
     }
 
@@ -162,6 +217,9 @@ export class MediaController extends EventEmitter {
     }
 
     destroy() {
+        this._settings.disconnectObject(this);
+        this.state.destroy();
+        this._statePlayer = null;
         this._cancellable.cancel();
         this._source.disconnectObject(this);
         for (const player of this._players)

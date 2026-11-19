@@ -19,11 +19,12 @@
     background-color: transparent;
     box-shadow: none;
     border-radius: 15px;
-    min-width: 300px;
-    max-width: 320px;
+    min-width: 320px;
+    max-width: 340px;
 }
 
-/* Card with the blurred cover; always dark so white text stays readable */
+/* Card: cover color or blurred cover behind white text; a light cover
+   color gets dark text (bzd-media-light) */
 .dock-media-card {
     background-color: #2b2b2e;
     border-radius: 14px;
@@ -40,12 +41,16 @@
 }
 
 .dock-media-box {
-    spacing: 10px;
-    padding: 12px;
+    padding: 14px 14px 8px;
 }
 
+/* Cover | title, artist | app icon */
 .dock-media-header {
     spacing: 12px;
+}
+
+.dock-media-info {
+    spacing: 2px;
 }
 
 .dock-media-title {
@@ -57,32 +62,118 @@
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* App and settings buttons, top right: same size, side by side */
-.dock-media-actions {
-    spacing: 2px;
+/* GNOME's slider across the card, thin, in the card's text color */
+.dock-media-card .dock-media-progress {
+    height: 16px;
+    margin: 12px 2px 0;
+    -barlevel-height: 4px;
+    -slider-handle-radius: 6px;
+    -barlevel-background-color: rgba(255, 255, 255, 0.25);
+    -barlevel-active-background-color: white;
+    color: white;
+}
+
+/* Elapsed | whole time, under the ends of the slider */
+.dock-media-times {
+    padding: 0 2px;
+}
+
+.dock-media-time {
+    font-size: 0.75em;
+    font-feature-settings: "tnum";
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Shuffle | previous | play/pause | next | repeat */
+.dock-media-controls {
+    padding-top: 2px;
+}
+
+.dock-media-control {
+    padding: 8px;
+    border-radius: 99px;
+    color: white;
+}
+
+.dock-media-control StIcon {
+    icon-size: 20px;
+}
+
+.dock-media-control.dock-media-play StIcon {
+    icon-size: 28px;
+}
+
+/* Speaker | volume | sound output, below the controls */
+.dock-media-volume {
+    spacing: 4px;
+    padding-top: 2px;
+}
+
+.dock-media-card .dock-media-volume .dock-media-progress {
+    margin: 0 4px;
+}
+
+/* The sound outputs and players listed in the card */
+.dock-media-card .popup-separator-menu-item {
+    padding: 4px 8px;
+}
+
+/* Dock cover: progress ring along the edge in the accent color, and a
+   shade with a pause badge while paused */
+.dock-media-ring {
+    color: -st-accent-color;
+}
+
+.dock-media-paused-shade {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dock-media-badge {
+    color: white;
+}
+
+/* Cover and title open the player app: the title is underlined under the
+   pointer (the cover lights up in code) */
+.dock-media-open {
+    padding: 0;
+    background-color: transparent;
+}
+
+.dock-media-open:hover .dock-media-title,
+.dock-media-open:focus .dock-media-title {
+    text-decoration: underline;
 }
 
 .dock-media-action {
-    padding: 6px;
-    border-radius: 8px;
+    padding: 7px;
+    border-radius: 99px;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .dock-media-action StIcon {
     icon-size: 16px;
 }
 
+/* The player app's own, colored icon */
+.dock-media-action.dock-media-app {
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.dock-media-action.dock-media-app StIcon {
+    icon-size: 20px;
+}
+
+.dock-media-action:checked {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dock-media-control:hover,
+.dock-media-control:focus,
 .dock-media-action:hover,
 .dock-media-action:focus {
     background-color: rgba(255, 255, 255, 0.15);
-}
-
-.dock-media-controls {
-    spacing: 8px;
-}
-
-.dock-media-card .message-media-control {
-    padding: 8px 16px;
-    color: white;
 }
 
 .dock-media-card .popup-menu-item {
@@ -91,26 +182,657 @@
 }
 
 .dock-media-card .popup-menu-item:hover,
-.dock-media-card .popup-menu-item:focus,
-.dock-media-card .message-media-control:hover,
-.dock-media-card .message-media-control:focus {
+.dock-media-card .popup-menu-item:focus {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
-/* Clock behind "Show Applications" while the top bar is hidden */
-.dock-clock {
-    padding: 6px 0;
-    border-radius: 8px;
+/* On a light cover color: the same in dark */
+.dock-media-card.bzd-media-light,
+.dock-media-card.bzd-media-light .dock-media-control,
+.dock-media-card.bzd-media-light .dock-media-action:checked,
+.dock-media-card.bzd-media-light .popup-menu-item {
+    color: rgba(0, 0, 0, 0.87);
 }
 
-.dock-clock:hover,
-.dock-clock:focus,
-.dock-clock:checked {
-    background-color: rgba(255, 255, 255, 0.12);
+.dock-media-card.bzd-media-light .dock-media-artist,
+.dock-media-card.bzd-media-light .dock-media-time,
+.dock-media-card.bzd-media-light .dock-media-action {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.dock-media-card.bzd-media-light .dock-media-progress {
+    -barlevel-background-color: rgba(0, 0, 0, 0.2);
+    -barlevel-active-background-color: rgba(0, 0, 0, 0.8);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.dock-media-card.bzd-media-light .dock-media-action:checked {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.dock-media-card.bzd-media-light .dock-media-control:hover,
+.dock-media-card.bzd-media-light .dock-media-control:focus,
+.dock-media-card.bzd-media-light .dock-media-action:hover,
+.dock-media-card.bzd-media-light .dock-media-action:focus,
+.dock-media-card.bzd-media-light .popup-menu-item:hover,
+.dock-media-card.bzd-media-light .popup-menu-item:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* The workspace indicator and the clock sit in the dock's rounded ends.
+   Their hover tile (overview-tile, like every other icon's) keeps the same
+   3 px gap to the dock's edge on every side, with a radius concentric to
+   the dock's 16 px corners: 16 - 3 = 13 px, so at least 26 px high. The
+   status icons above the clock get the same small tiles */
+#dash .dash-item-container .overview-tile.bzd-edge-tile .overview-icon {
+    border-radius: 13px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-height: 26px;
+}
+
+#dash .dash-item-container .overview-tile.bzd-workspaces-button {
+    padding-top: 3px !important;
+    padding-bottom: 2px !important;
+}
+
+/* Clock behind "Show Applications" while the top bar is hidden */
+/* The buttons at the dock's end on pills of their own ('clock-pill'): the
+   clock, the button for the other status icons and the thin "Show
+   Applications" */
+#dash .dash-item-container .overview-tile.bzd-dock-pill .overview-icon,
+#dash .dash-item-container .show-apps.bzd-dock-pill .overview-icon {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 99px !important;
+    /* As wide as an app icon's tile, not the whole dock */
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+#dash .dash-item-container .overview-tile.bzd-dock-pill:hover .overview-icon,
+#dash .dash-item-container .show-apps.bzd-dock-pill:hover .overview-icon,
+#dash .dash-item-container .overview-tile.bzd-dock-pill:checked .overview-icon,
+#dash .dash-item-container .show-apps.bzd-dock-pill:checked .overview-icon {
+    background-color: rgba(255, 255, 255, 0.16);
+}
+
+/* The clock's pill keeps the rounding of the dock's ends */
+#dash .dash-item-container .overview-tile.dock-clock.bzd-dock-pill .overview-icon {
+    border-radius: 13px !important;
+}
+
+#dash .dash-item-container .overview-tile.dock-clock {
+    padding-top: 2px !important;
+    padding-bottom: 3px !important;
+}
+
+/* Status icons of the top bar (StatusArea) in the dock, 2 px apart */
+#dash .dash-item-container .overview-tile.bzd-status-tile {
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}
+
+/* The indicators themselves stay flat, without the bar's spacing: the tile
+   around them shows hover and open menus */
+.bzd-status-tile .panel-button,
+.bzd-tray-tile .panel-button {
+    -natural-hpadding: 0;
+    -minimum-hpadding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
+
+.bzd-status-tile .panel-button StIcon,
+.bzd-tray-tile .panel-button StIcon {
+    icon-size: 16px;
+    padding: 0;
+    margin: 0;
+}
+
+.bzd-status-tile .panel-button StBoxLayout,
+.bzd-tray-tile .panel-button StBoxLayout {
+    spacing: 4px;
+}
+
+/* Screen recording and sharing stay as visible as in the bar: glossy
+   pills in their warning color, light at the top, with a bright rim, as
+   wide and high as the other pills (with Liquid Glass translucent, see the
+   theme). Sharing a warm amber rather than a hard red-orange */
+#dash .dash-item-container .overview-tile.bzd-status-recording .overview-icon,
+#dash .dash-item-container .overview-tile.bzd-status-sharing .overview-icon {
+    border-radius: 99px !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    color: white;
+}
+
+#dash .dash-item-container .overview-tile.bzd-status-recording .overview-icon {
+    background-color: #ec3b4b;
+    background-gradient-direction: vertical;
+    background-gradient-start: #ff8a92;
+    background-gradient-end: #e5303f;
+    border: 1px solid rgba(255, 214, 216, 0.7);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+}
+
+#dash .dash-item-container .overview-tile.bzd-status-recording:hover .overview-icon {
+    background-gradient-start: #ff9ca3;
+    background-gradient-end: #ef4353;
+}
+
+#dash .dash-item-container .overview-tile.bzd-status-sharing .overview-icon {
+    background-color: #f7883f;
+    background-gradient-direction: vertical;
+    background-gradient-start: #ffc27e;
+    background-gradient-end: #f5822f;
+    border: 1px solid rgba(255, 232, 208, 0.75);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.65);
+}
+
+#dash .dash-item-container .overview-tile.bzd-status-sharing:hover .overview-icon {
+    background-gradient-start: #ffcd93;
+    background-gradient-end: #f8913f;
+}
+
+/* "Show Applications": its height across the dock is set in code
+   (ShowAppsIcon), the symbol sits in its middle */
+#dash .dash-item-container .show-apps .overview-icon {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* The button for the other status icons (StatusTray) stays lit while their
+   popup is open, like the dock's hovered icons */
+.bzd-tray-button StIcon {
+    icon-size: 16px;
+}
+
+#dash .dash-item-container .overview-tile.bzd-tray-button:checked .overview-icon {
+    background-color: rgba(238, 238, 238, 0.2);
+}
+
+/* The popup: the icons in a row, each in a round tile of the same size
+   whatever the indicator's own padding, its icon in the middle; one alone
+   makes a round popup */
+.bzd-tray {
+    padding: 6px;
+    spacing: 2px;
+}
+
+.bzd-tray-icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 999px;
+    transition-duration: 100ms;
+}
+
+.bzd-tray-tile:hover .bzd-tray-icon {
+    background-color: rgba(127, 127, 127, 0.2);
+}
+
+/* Battery below the time in the clock (BatteryView) */
+#dash .dash-item-container .overview-tile.bzd-edge-tile.bzd-clock-battery .overview-icon {
+    padding-top: 3px !important;
+    padding-bottom: 4px !important;
+}
+
+.bzd-battery {
+    spacing: 3px;
+}
+
+.bzd-battery-icon {
+    icon-size: 12px;
+}
+
+.bzd-battery-percentage {
+    font-size: 0.7em;
+    font-weight: bold;
+    font-feature-settings: "tnum";
+}
+
+/* 'battery-colors': green while charging, red when low; bright enough on
+   the dock, which stays dark in both styles */
+.bzd-battery.bzd-battery-charging .bzd-battery-icon,
+.bzd-battery.bzd-battery-charging .bzd-battery-percentage {
+    color: #6ee39a;
+}
+
+.bzd-battery.bzd-battery-low .bzd-battery-icon,
+.bzd-battery.bzd-battery-low .bzd-battery-percentage {
+    color: #ff7a7a;
+}
+
+/* Unread notifications: a dot next to the time, like the top bar's */
+.bzd-clock-content {
+    spacing: 2px;
+}
+
+.bzd-clock-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 3px;
+    background-color: -st-accent-color;
 }
 
 .dock-clock-time {
     font-weight: bold;
     font-feature-settings: "tnum";
     text-align: center;
+}
+
+/* The look of Liquid Glass lives in appearance/themes/: its stylesheet is
+   loaded only while the theme is on, in the palette of the shell style */
+
+/* Workspace indicator at the top of the dock in the compact bar, like the
+   top bar's: a dot per workspace, the active one as a wide pill */
+
+.bzd-workspaces {
+    spacing: 4px;
+}
+
+.bzd-workspace-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 99px;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition-duration: 200ms;
+}
+
+.bzd-workspace-dot.active {
+    width: 18px;
+    background-color: white;
+}
+
+/* Hover labels of this extension's dock items (showDockLabel): rounded like
+   the popups instead of a pill, lists left-aligned with some line spacing */
+.bzd-dock-label {
+    border-radius: 12px;
+    padding: 6px 12px;
+}
+
+.bzd-dock-label-list {
+    text-align: left;
+    padding: 8px 14px;
+}
+
+/* Fish-eye zoom in the dock (DockMagnifier): no grey hover tile, like on
+   macOS; the grown image is enough. A focused or pressed icon keeps its */
+#dash.bzd-magnify .dash-item-container .overview-tile:hover .overview-icon,
+#dash.bzd-magnify .dash-item-container .overview-tile:focus .overview-icon:hover {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Quick settings, notifications and calendar in one panel (UnifiedPanel),
+   in sections like a control center: the toggles, the notifications under
+   their heading with "Clear" as a small pill beside it, and the calendar
+   as a card of its own at the bottom. As wide as the quick settings: the
+   notifications give up their own fixed width (29em in the theme) */
+.bzd-unified-panel #calendarArea {
+    padding: 18px 0 0;
+    spacing: 14px;
+}
+
+.bzd-unified-panel .message-list {
+    width: 0;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+}
+
+.bzd-unified-panel .message-list-controls {
+    padding: 0 6px 10px;
+}
+
+.bzd-panel-heading {
+    font-weight: bold;
+}
+
+.bzd-unified-panel .message-list-controls .message-list-clear-button {
+    padding: 3px 12px;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+/* Nothing to show: small and quiet instead of a huge bell */
+.bzd-unified-panel .message-list-placeholder {
+    font-size: 0.95em;
+}
+
+.bzd-unified-panel .message-list-placeholder > StIcon {
+    icon-size: 40px;
+    margin-bottom: 8px;
+}
+
+.bzd-unified-panel .datemenu-calendar-column {
+    margin: 0;
+    padding: 10px 10px 8px;
+    border: none;
+    border-radius: 24px;
+    background-color: rgba(127, 127, 127, 0.1);
+}
+
+/* A slimmer calendar: flatter days, as rounded squares so today isn't an
+   oval, and a lower month row */
+.bzd-unified-panel .calendar .calendar-day {
+    height: 2.3em;
+    margin: 1px 2px;
+    border-radius: 10px;
+}
+
+.bzd-unified-panel .calendar .calendar-month-header .pager-button {
+    height: 2em;
+    width: 2em;
+}
+
+.bzd-unified-panel .calendar .calendar-month-header .calendar-month-label {
+    padding: 4px 0;
+}
+
+/* Notification badges as a plain dot (DockBadges sets its size): the
+   count stays in the label, just not shown */
+#dashtodockContainer .notification-badge.bzd-badge-dot {
+    color: transparent;
+    padding: 0;
+    border-radius: 99px;
+}
+
+/* The One UI look ('ui-style'): menus, popups, the quick settings and the
+   music card rounder, bolder and roomier, like Samsung's One UI 9 and
+   macOS. Scoped by the UI root's name, so these win over the theme's and
+   Liquid Glass's own corners without being tied to either; the dock keeps
+   its look */
+
+/* Menus and popups */
+#uiGroup.bzd-oneui .popup-menu-content,
+#uiGroup.bzd-oneui .candidate-popup-content {
+    border-radius: 26px !important;
+    padding: 8px;
+}
+
+#uiGroup.bzd-oneui .popup-menu-item {
+    border-radius: 999px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#uiGroup.bzd-oneui .popup-menu-item:checked {
+    border-radius: 20px 20px 0 0 !important;
+}
+
+#uiGroup.bzd-oneui .popup-sub-menu {
+    border-radius: 0 0 20px 20px;
+}
+
+#uiGroup.bzd-oneui .popup-sub-menu .popup-menu-item {
+    border-radius: 999px;
+}
+
+#uiGroup.bzd-oneui .datemenu-popover {
+    border-radius: 30px !important;
+}
+
+#uiGroup.bzd-oneui .modal-dialog {
+    border-radius: 30px !important;
+    padding: 28px;
+}
+
+#uiGroup.bzd-oneui .modal-dialog .modal-dialog-button-box .modal-dialog-button {
+    border-radius: 99px;
+    padding: 14px;
+    font-weight: 800;
+}
+
+/* The button Enter presses (Shut Down, Restart, OK …) filled in the
+   accent color, entries (run dialog, passwords) as pills */
+#uiGroup.bzd-oneui .modal-dialog .modal-dialog-button-box .modal-dialog-button:default {
+    background-color: -st-accent-color;
+    color: -st-accent-fg-color;
+}
+
+#uiGroup.bzd-oneui .modal-dialog .modal-dialog-button-box .modal-dialog-button:default:hover {
+    background-color: st-lighten(-st-accent-color, 6%);
+}
+
+#uiGroup.bzd-oneui .modal-dialog .modal-dialog-button-box .modal-dialog-button:default:active {
+    background-color: st-darken(-st-accent-color, 6%);
+}
+
+#uiGroup.bzd-oneui .modal-dialog StEntry {
+    border-radius: 999px;
+    padding: 10px 16px;
+}
+
+/* Screenshot tool and the overview's window titles, as round as the rest */
+#uiGroup.bzd-oneui .screenshot-ui-panel {
+    border-radius: 34px !important;
+}
+
+#uiGroup.bzd-oneui .screenshot-ui-type-button {
+    border-radius: 20px;
+}
+
+#uiGroup.bzd-oneui .window-caption {
+    border-radius: 999px;
+}
+
+#uiGroup.bzd-oneui .osd-window {
+    border-radius: 30px !important;
+    padding: 14px 22px;
+}
+
+#uiGroup.bzd-oneui .switcher-list {
+    border-radius: 32px !important;
+}
+
+#uiGroup.bzd-oneui .switcher-list .item-box {
+    border-radius: 22px;
+}
+
+#uiGroup.bzd-oneui .notification-banner {
+    border-radius: 26px !important;
+}
+
+#uiGroup.bzd-oneui .message {
+    border-radius: 24px;
+    padding: 6px;
+}
+
+/* Quick settings: compact round pills like One UI 9, each icon in a
+   filled circle of its own, a darker one on a toggle that is off and a
+   lighter one on one that is on; round buttons and slim sliders */
+#uiGroup.bzd-oneui .quick-settings {
+    border-radius: 34px !important;
+    padding: 16px;
+}
+
+#uiGroup.bzd-oneui .quick-settings-grid {
+    spacing-rows: 10px;
+    spacing-columns: 10px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle,
+#uiGroup.bzd-oneui .quick-toggle-has-menu {
+    border-radius: 999px;
+    min-height: 3em;
+}
+
+#uiGroup.bzd-oneui .quick-toggle > StBoxLayout {
+    spacing: 8px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle:ltr > StBoxLayout {
+    padding-left: 6px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle:rtl > StBoxLayout {
+    padding-right: 6px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle .quick-toggle-title {
+    font-weight: 700;
+}
+
+#uiGroup.bzd-oneui .quick-toggle .quick-toggle-icon {
+    icon-size: 1em;
+    padding: 7px;
+    border-radius: 999px;
+    background-color: rgba(127, 127, 127, 0.22);
+}
+
+#uiGroup.bzd-oneui .quick-toggle:checked .quick-toggle-icon {
+    background-color: rgba(255, 255, 255, 0.24);
+}
+
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle:ltr {
+    border-radius: 999px 0 0 999px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle:rtl {
+    border-radius: 0 999px 999px 0;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle:ltr:last-child,
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle:rtl:last-child {
+    border-radius: 999px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle-menu-button {
+    padding: 0.4em 0.6em;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle-menu-button:ltr {
+    border-radius: 0 999px 999px 0;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-has-menu .quick-toggle-menu-button:rtl {
+    border-radius: 999px 0 0 999px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-menu {
+    border-radius: 28px !important;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-menu .header .icon {
+    border-radius: 999px;
+}
+
+#uiGroup.bzd-oneui .quick-toggle-menu .popup-menu-item {
+    border-radius: 999px;
+}
+
+#uiGroup.bzd-oneui .quick-slider .slider {
+    -barlevel-height: 8px;
+    -slider-handle-radius: 9px;
+}
+
+#uiGroup.bzd-oneui .quick-slider .icon-button {
+    border-radius: 999px;
+}
+
+/* The row above the sliders: the battery pill no taller than the round
+   buttons next to it, which are as wide as high, so circles */
+#uiGroup.bzd-oneui .quick-settings-system-item .icon-button {
+    border-radius: 999px;
+    padding: 10px;
+}
+
+#uiGroup.bzd-oneui .quick-settings-system-item .power-item {
+    min-height: 0;
+}
+
+/* The control center's heading and calendar card */
+#uiGroup.bzd-oneui .bzd-panel-heading {
+    font-size: 1.05em;
+    font-weight: 700;
+}
+
+#uiGroup.bzd-oneui .bzd-unified-panel .datemenu-calendar-column {
+    border-radius: 28px;
+}
+
+/* Days as circles, today a filled one */
+#uiGroup.bzd-oneui .bzd-unified-panel .calendar .calendar-day {
+    border-radius: 999px;
+}
+
+/* Music card: a big rounded card, a thick progress bar and round buttons,
+   the play button the largest */
+/* The card is the popup: no second frame around it */
+#uiGroup.bzd-oneui .dock-media-menu .popup-menu-content {
+    border-radius: 28px !important;
+    padding: 0;
+}
+
+#uiGroup.bzd-oneui .dock-media-card,
+#uiGroup.bzd-oneui .dock-media-background,
+#uiGroup.bzd-oneui .dock-media-shade {
+    border-radius: 27px;
+}
+
+#uiGroup.bzd-oneui .dock-media-box {
+    padding: 14px 14px 10px;
+}
+
+#uiGroup.bzd-oneui .dock-media-title {
+    font-size: 1.05em;
+    font-weight: 700;
+}
+
+#uiGroup.bzd-oneui .dock-media-time {
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+#uiGroup.bzd-oneui .dock-media-card .dock-media-progress {
+    height: 16px;
+    -barlevel-height: 5px;
+    -slider-handle-radius: 7px;
+}
+
+#uiGroup.bzd-oneui .dock-media-controls {
+    padding-top: 6px;
+}
+
+#uiGroup.bzd-oneui .dock-media-control,
+#uiGroup.bzd-oneui .dock-media-action {
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#uiGroup.bzd-oneui .dock-media-control.dock-media-play {
+    padding: 11px;
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+#uiGroup.bzd-oneui .dock-media-control:hover,
+#uiGroup.bzd-oneui .dock-media-action:hover,
+#uiGroup.bzd-oneui .dock-media-action:checked {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#uiGroup.bzd-oneui .dock-media-control.dock-media-play:hover {
+    background-color: rgba(255, 255, 255, 0.32);
+}
+
+#uiGroup.bzd-oneui .dock-media-card.bzd-media-light .dock-media-control,
+#uiGroup.bzd-oneui .dock-media-card.bzd-media-light .dock-media-action {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+#uiGroup.bzd-oneui .dock-media-card.bzd-media-light .dock-media-control.dock-media-play,
+#uiGroup.bzd-oneui .dock-media-card.bzd-media-light .dock-media-control:hover,
+#uiGroup.bzd-oneui .dock-media-card.bzd-media-light .dock-media-action:hover {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+/* The dock-media-app icon stays flat */
+#uiGroup.bzd-oneui .dock-media-action.dock-media-app,
+#uiGroup.bzd-oneui .dock-media-card.bzd-media-light .dock-media-action.dock-media-app {
+    background-color: transparent;
 }

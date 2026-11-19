@@ -6,13 +6,193 @@
       <default>5</default>
       <summary>Abstand des Popups zu Dock und Bildschirmrand (px)</summary>
     </key>
-    <key name="blur-background" type="b">
+    <key name="media-background" type="s">
+      <choices>
+        <choice value="color"/>
+        <choice value="blur"/>
+        <choice value="none"/>
+      </choices>
+      <default>'color'</default>
+      <summary>Hintergrund des Musik-Popups: Farbe des Covers, unscharfes Cover oder keiner</summary>
+    </key>
+    <key name="hide-panel-media" type="b">
       <default>true</default>
-      <summary>Unscharfes Cover als Hintergrund des Popups</summary>
+      <summary>GNOMEs Medienkarte im Benachrichtigungs-Popup ausblenden</summary>
     </key>
     <key name="compact-panel" type="b">
       <default>false</default>
       <summary>Obere Leiste ausblenden und Uhr im Dock anzeigen</summary>
+    </key>
+    <key name="unified-panel" type="b">
+      <default>false</default>
+      <summary>Schnelleinstellungen, Benachrichtigungen und Kalender in einem Panel über die ganze Bildschirmhöhe</summary>
+    </key>
+    <key name="clock-swap-clicks" type="b">
+      <default>false</default>
+      <summary>Klicks an der Uhr tauschen: Linksklick Schnelleinstellungen, Rechtsklick Kalender</summary>
+    </key>
+    <key name="clock-pill" type="b">
+      <default>true</default>
+      <summary>Pillen am Dock-Ende: Uhr, Statusknopf und „Anwendungen anzeigen“ auf runden, gleich breiten Flächen</summary>
+    </key>
+    <key name="compact-battery" type="b">
+      <default>true</default>
+      <summary>Akkustand in der Uhr im Dock, unter der Uhrzeit</summary>
+    </key>
+    <key name="battery-colors" type="b">
+      <default>true</default>
+      <summary>Akku in der Uhr farbig: rot bei 20 % und weniger, grün beim Laden</summary>
+    </key>
+    <key name="status-collapse" type="b">
+      <default>true</default>
+      <summary>Statussymbole hinter einem Knopf im Dock zusammenfassen; Aufnahme und Freigabe bleiben sichtbar</summary>
+    </key>
+    <key name="compact-status-icons" type="b">
+      <default>true</default>
+      <summary>Statussymbole der Leiste (Tray-Symbole, Bildschirmaufnahme, Tastaturlayout …) im Dock über der Uhr</summary>
+    </key>
+    <key name="ui-style" type="s">
+      <choices>
+        <choice value="standard"/>
+        <choice value="oneui"/>
+      </choices>
+      <default>'oneui'</default>
+      <summary>Look von Menüs, Popups, Schnelleinstellungen und Musik-Popup: wie GNOME oder rund und kräftig wie One UI 9 und macOS</summary>
+    </key>
+    <key name="banner-position" type="s">
+      <choices>
+        <choice value="start"/>
+        <choice value="center"/>
+        <choice value="end"/>
+        <choice value="bottom-start"/>
+      </choices>
+      <default>'bottom-start'</default>
+      <summary>Wo neue Benachrichtigungen erscheinen: oben links, oben in der Mitte (wie GNOME), oben rechts oder unten links neben dem Dock</summary>
+    </key>
+    <key name="glass-style" type="b">
+      <default>false</default>
+      <summary>Liquid Glass: Milchglas für Dock und Popups</summary>
+    </key>
+    <key name="glass-mode" type="s">
+      <choices>
+        <choice value="tinted"/>
+        <choice value="clear"/>
+      </choices>
+      <default>'tinted'</default>
+      <summary>Art des Glases: getöntes Milchglas oder klares Glas wie bei macOS</summary>
+    </key>
+    <key name="show-apps-style" type="s">
+      <choices>
+        <choice value="pill"/>
+        <choice value="grid"/>
+        <choice value="thin"/>
+      </choices>
+      <default>'pill'</default>
+      <summary>„Anwendungen anzeigen“ als Raster in einer Pille so groß wie die anderen am Dock-Ende, als großes Raster oder als drei Punkte</summary>
+    </key>
+    <key name="show-apps-icon" type="s">
+      <default>''</default>
+      <summary>Icon für „Anwendungen anzeigen“ (Icon-Name oder Bildpfad, leer = Original)</summary>
+    </key>
+    <key name="menu-settings-button" type="b">
+      <default>true</default>
+      <summary>Puzzle-Icon in den Schnelleinstellungen, öffnet die BZDubuntuUI-Einstellungen</summary>
+    </key>
+    <key name="dock-magnify" type="b">
+      <default>false</default>
+      <summary>App-Icons im Dock wachsen zum Mauszeiger hin, wie bei macOS (Fischauge)</summary>
+    </key>
+    <key name="glass-everywhere" type="b">
+      <default>true</default>
+      <summary>Liquid Glass auch für alle anderen Shell-Oberflächen (Menüs, Dialoge, Anzeigen, Fensterwechsler)</summary>
+    </key>
+    <key name="window-glass" type="b">
+      <default>true</default>
+      <summary>Liquid Glass auch für App-Fenster (Dateien, Einstellungen …)</summary>
+    </key>
+    <key name="glass-live" type="b">
+      <default>true</default>
+      <summary>Live-Unschärfe: hinter Popups und Glas-Fenstern die Fenster dahinter weichzeichnen statt nur das Hintergrundbild (braucht deutlich mehr Leistung)</summary>
+    </key>
+    <key name="window-glass-opacity" type="i">
+      <range min="60" max="100"/>
+      <default>80</default>
+      <summary>Deckkraft des Fensterhintergrunds bei Fenster-Glas in Prozent; Text und Symbole bleiben voll deckend</summary>
+    </key>
+    <key name="media-progress-color" type="b">
+      <default>true</default>
+      <summary>Fortschritts- und Lautstärkebalken im Musik-Popup in der Farbe des Covers</summary>
+    </key>
+    <key name="media-volume" type="b">
+      <default>true</default>
+      <summary>Lautstärke und Auswahl des Ausgabegeräts im Musik-Popup</summary>
+    </key>
+    <key name="media-crossfade" type="b">
+      <default>true</default>
+      <summary>Cover und Hintergrund beim Titelwechsel weich überblenden</summary>
+    </key>
+    <key name="dock-progress-ring" type="b">
+      <default>true</default>
+      <summary>Fortschritt des Titels als Ring um das Cover im Dock, pausiert abgedunkelt</summary>
+    </key>
+    <key name="dock-progress-ring-width" type="i">
+      <range min="1" max="4"/>
+      <default>2</default>
+      <summary>Breite des Fortschrittsrings in Pixeln</summary>
+    </key>
+    <key name="dock-badge-style" type="s">
+      <choices>
+        <choice value="number"/>
+        <choice value="dot"/>
+        <choice value="hidden"/>
+      </choices>
+      <default>'number'</default>
+      <summary>Benachrichtigungs-Abzeichen an App-Icons im Dock: Zahl, Punkt oder keines</summary>
+    </key>
+    <key name="dock-badge-color-mode" type="s">
+      <choices>
+        <choice value="theme"/>
+        <choice value="accent"/>
+        <choice value="custom"/>
+      </choices>
+      <default>'theme'</default>
+      <summary>Farbe der Abzeichen: die des Themes, die Akzentfarbe oder eine eigene (dock-badge-color)</summary>
+    </key>
+    <key name="dock-badge-color" type="s">
+      <default>'#e01b24'</default>
+      <summary>Eigene Farbe der Abzeichen als #rrggbb</summary>
+    </key>
+    <key name="dock-launch-feedback" type="b">
+      <default>true</default>
+      <summary>App-Icons hüpfen, bis die App gestartet ist; weitere Klicks währenddessen öffnen keine zweite Kopie</summary>
+    </key>
+    <key name="dock-magnify-zoom" type="i">
+      <range min="110" max="200"/>
+      <default>150</default>
+      <summary>Vergrößerung des Icons unter dem Mauszeiger in Prozent</summary>
+    </key>
+    <key name="dock-magnify-range" type="i">
+      <range min="1" max="4"/>
+      <default>2</default>
+      <summary>Wie viele Nachbar-Icons auf jeder Seite mitwachsen</summary>
+    </key>
+    <key name="glass-shine" type="i">
+      <range min="0" max="100"/>
+      <default>60</default>
+      <summary>Stärke der Lichtkante oben am Glas in Prozent, 0 = keine</summary>
+    </key>
+    <key name="glass-overview" type="b">
+      <default>true</default>
+      <summary>Liquid Glass auch für Suchfeld, Suchergebnisse und App-Ordner in der Übersicht</summary>
+    </key>
+    <key name="glass-tint-wallpaper" type="b">
+      <default>true</default>
+      <summary>Das Glas nimmt einen Hauch der Farbe des Hintergrundbilds an</summary>
+    </key>
+    <key name="glass-tint-strength" type="i">
+      <range min="0" max="40"/>
+      <default>15</default>
+      <summary>Anteil der Farbe des Hintergrundbilds an der Glastönung in Prozent</summary>
     </key>
   </schema>
 </schemalist>

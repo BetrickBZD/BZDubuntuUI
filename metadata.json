@@ -1,10 +1,11 @@
 {
   "uuid": "dock-media@yekda",
-  "name": "Dock Media",
-  "description": "Zeigt das Album-Cover des laufenden Players im Ubuntu Dock über 'Anwendungen anzeigen'. Hover zeigt den Titel, Klick öffnet die Steuerung.",
+  "name": "BZDubuntuUI",
+  "description": "Ubuntu-Oberfläche nach Maß: Album-Cover mit Steuerung im Dock, kompakte Leiste mit Uhr im Dock, Liquid Glass und eigenes „Anwendungen anzeigen“-Icon.",
   "shell-version": [
     "50"
   ],
   "version": 1,
-  "settings-schema": "org.gnome.shell.extensions.dock-media"
+  "settings-schema": "org.gnome.shell.extensions.dock-media",
+  "url": "https://github.com/BetrickBZD/BZDubuntuUI"
 }

@@ -32,7 +32,7 @@ export class SystemStatus {
     }
 
     describe() {
-        return [this._date(), this._batteryText(), this._notificationsText()]
+        return [this._date(), this.batteryText(), this._notificationsText()]
             .filter(Boolean)
             .join('\n');
     }
@@ -41,7 +41,7 @@ export class SystemStatus {
         return GLib.DateTime.new_now_local().format('%A, %e. %B');
     }
 
-    _batteryText() {
+    batteryText() {
         const prop = name => this._battery?.get_cached_property(name)?.unpack();
         if (!prop('IsPresent'))
             return null;
@@ -60,7 +60,7 @@ export class SystemStatus {
     _notificationsText() {
         const count = Main.messageTray.getSources().reduce((n, source) => n + source.count, 0);
         const text = count === 1 ? '1 Benachrichtigung' : `${count || 'Keine'} Benachrichtigungen`;
-        const dnd = this._notificationSettings.get_boolean('show-banners') ? '' : ' · Nicht stören';
+        const dnd = this._notificationSettings?.get_boolean('show-banners') === false ? ' · Nicht stören' : '';
         return `${text}${dnd}`;
     }
 
